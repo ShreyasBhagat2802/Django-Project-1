@@ -56,7 +56,7 @@ variable "instance_type" {
 
 variable "access_key" {
   description = "Kay Pair for ssh"
-  default     = "Django_access_key"
+  default     = "Access_key"
 }
 
 variable "rds_db_name" {

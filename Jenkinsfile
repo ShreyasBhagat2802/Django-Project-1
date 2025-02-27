@@ -2,24 +2,29 @@ pipeline {
     agent any
 
     environment {
-        AWS_ACCESS_KEY_ID = credentials('aws-access-key')
-        AWS_SECRET_ACCESS_KEY = credentials('aws-secret-key')
-        REGION = 'eu-west-1'
-        TF_CLOUD_TOKEN = credentials('TERRAFORM_CLOUD_TOKEN')
+        TF_CLOUD_TOKEN = credentials('TERRAFORM_CLOUD_TOKEN') // Use Jenkins credentials
     }
 
     stages {
         stage('Checkout Code') {
             steps {
-                git branch: 'Terraform', url: 'https://github.com/ShreyasBhagat2802/Django-Project-1.git'
+                git branch: 'Terraform', 
+                    credentialsId: 'github-credentials', 
+                    url: 'https://github.com/ShreyasBhagat2802/Django-Project-1.git'
             }
         }
 
         stage('Setup Terraform') {
             steps {
+                script {
+                    // Fix potential credential issues
+                    sh 'rm -f ~/.terraform.d/credentials.tfrc.json || true'
+                    sh 'echo "{ \"credentials\": { \"app.terraform.io\": { \"token\": \"$TF_CLOUD_TOKEN\" } } }" > ~/.terraform.d/credentials.tfrc.json'
+                }
+                
                 sh '''
-                echo $TF_CLOUD_TOKEN > ~/.terraform.d/credentials.tfrc.json
-                terraform init
+                    terraform --version
+                    terraform init
                 '''
             }
         }
@@ -32,17 +37,18 @@ pipeline {
 
         stage('Terraform Apply') {
             steps {
-                sh 'terraform apply -auto-approve'
+                input message: "Proceed with Terraform Apply?"
+                sh 'terraform apply -auto-approve tfplan'
             }
         }
     }
 
     post {
         success {
-            echo 'Terraform deployment successful! ✅'
+            echo "Terraform deployment successful! ✅"
         }
         failure {
-            echo 'Terraform deployment failed. ❌'
+            echo "Terraform deployment failed. ❌"
         }
     }
 }

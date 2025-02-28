@@ -10,7 +10,7 @@ terraform {
     organization = "ShreyasBhagat28"
 
     workspaces {
-      name = "Terrafrom-${var.environment}"
+      name = "Terrafrom-dev" 
     }
   }
 }

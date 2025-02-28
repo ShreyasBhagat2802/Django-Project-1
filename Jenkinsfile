@@ -13,7 +13,7 @@ pipeline {
     stages {
         stage('Checkout Code') {
             steps {
-                git branch: 'Terraform', url: 'https://github.com/ShreyasBhagat2802/Django-Project-1.git'
+                git branch: 'Chatapp-Infrastructure', url: 'https://github.com/ShreyasBhagat2802/Django-Project-1.git'
             }
         }
 

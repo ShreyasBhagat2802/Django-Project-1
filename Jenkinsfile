@@ -10,7 +10,6 @@ pipeline {
 
         stage('Setup Terraform') {
             steps {
-                script {
                 sh 'terraform init'
             }
         }

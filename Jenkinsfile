@@ -7,6 +7,7 @@ pipeline {
     }
 
     environment {
+        TF_TOKEN_app_terraform_io = credentials('terraform-cloud-token')
         TF_ENV = "${ENVIRONMENT}"
     }
 

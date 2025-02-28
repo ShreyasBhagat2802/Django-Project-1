@@ -8,13 +8,15 @@ pipeline {
     stages {
         stage('Checkout Code') {
             steps {
-                git branch: 'Terraform',  url: 'https://github.com/ShreyasBhagat2802/Django-Project-1.git'
+                git branch: 'Terraform', url: 'https://github.com/ShreyasBhagat2802/Django-Project-1.git'
             }
         }
 
         stage('Setup Terraform') {
             steps {
-                sh 'terraform init'
+                script {
+                    sh 'terraform init'
+                }
             }
         }
 
@@ -27,7 +29,7 @@ pipeline {
         stage('Terraform Apply') {
             steps {
                 input message: "Proceed with Terraform Apply?"
-                sh 'terraform apply -auto-approve tfplan'
+                sh 'terraform apply -auto-approve'
             }
         }
     }

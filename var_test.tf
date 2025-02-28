@@ -73,3 +73,8 @@ variable "rds_password" {
   type    = string
   default = "Shreyas28"
 }
+
+variable "environment" {
+  description = "Environment (dev, beta, prod)"
+  type        = string
+}

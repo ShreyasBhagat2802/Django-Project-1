@@ -1,6 +1,11 @@
 pipeline {
     agent any
 
+    // Define a choice parameter
+    parameters {
+        choice(name: 'ACTION', choices: ['apply', 'destroy'], description: 'Choose Terraform Action')
+    }
+
     stages {
         stage('Checkout Code') {
             steps {
@@ -18,23 +23,35 @@ pipeline {
 
         stage('Terraform Plan') {
             steps {
-                sh 'terraform plan'
+                script {
+                    if (params.ACTION == 'apply') {
+                        sh 'terraform plan'
+                    } else {
+                        sh 'terraform plan -destroy'
+                    }
+                }
             }
         }
 
-        stage('Terraform Apply') {
+        stage('Terraform Execution') {
             steps {
-                sh 'terraform apply -auto-approve'
+                script {
+                    if (params.ACTION == 'apply') {
+                        sh 'terraform apply -auto-approve'
+                    } else {
+                        sh 'terraform destroy -auto-approve'
+                    }
+                }
             }
         }
     }
 
     post {
         success {
-            echo "Terraform deployment successful! ✅"
+            echo "Terraform ${params.ACTION} successful! ✅"
         }
         failure {
-            echo "Terraform deployment failed. ❌"
+            echo "Terraform ${params.ACTION} failed. ❌"
         }
     }
 }

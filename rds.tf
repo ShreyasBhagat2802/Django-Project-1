@@ -10,7 +10,7 @@ resource "aws_db_subnet_group" "rds_subnet_group" {
 
 # RDS Instance
 resource "aws_db_instance" "rds_instance" {
-  identifier             = "myrdsdb-${var.env}"
+  identifier             = "myrdsdb-${var.environment}"
   instance_class         = "db.t3.micro"
   allocated_storage      = 20
   engine                 = "mysql"

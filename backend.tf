@@ -9,3 +9,7 @@ resource "aws_instance" "backend" {
     Name = "backend-server"
   }
 }
+
+output "backend_ip" {
+  value = aws_instance.backend[*].public_ip
+}

@@ -11,5 +11,5 @@ resource "aws_instance" "backend" {
 }
 
 output "backend_ip" {
-  value = aws_instance.backend[*].public_ip
+  value = aws_instance.backend[*].private_ip
 }

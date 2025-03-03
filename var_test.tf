@@ -61,7 +61,6 @@ variable "access_key" {
 
 variable "rds_db_name" {
   type    = string
-  default = "myrdsdb"
 }
 
 variable "rds_username" {

@@ -61,6 +61,7 @@ variable "access_key" {
 
 variable "rds_db_name" {
   type    = string
+  default = "myrdsdb"
 }
 
 variable "rds_username" {
@@ -75,5 +76,10 @@ variable "rds_password" {
 
 variable "environment" {
   description = "Environment (dev, beta, prod)"
+  type        = string
+}
+
+variable "rds_name" {
+  description = "RDS identifier"
   type        = string
 }
